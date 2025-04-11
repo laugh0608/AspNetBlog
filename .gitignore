@@ -1,0 +1,18 @@
+## 自定义
+.idea/
+.idea/*
+.git/
+.git/*
+.vs/
+.vs/*
+.vscode/
+.vscode/*
+bin/*
+obj/*
+
+## 默认
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
