@@ -9,6 +9,7 @@
 .vscode/*
 bin/*
 obj/*
+*.csproj.user
 
 ## 默认
 bin/
