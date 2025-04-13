@@ -1,4 +1,4 @@
-namespace AspNetBlog.Repository;
+namespace AspNetBlog.Repository.Base;
 
 // 仓储基类接口
 // 添加一个 TEntity 泛型，添加到仓储接口里

@@ -1,9 +1,10 @@
 using AspNetBlog.IService;
 using AspNetBlog.Repository;
+using AspNetBlog.Repository.Base;
 
 namespace AspNetBlog.Service;
 
-public class BaseService<TEntity, TVo> : IBaseService<TEntity, TVo> where TEntity : class, new()
+public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEntity : class, new()
 {
     public async Task<List<TEntity>> Query()
     {

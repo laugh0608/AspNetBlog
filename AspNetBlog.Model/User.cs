@@ -1,6 +1,6 @@
 ﻿namespace AspNetBlog.Model;
 
-// 实体层
+// 实体层用户模型
 public class User
 {
     public int Id { get; set; }

@@ -35,10 +35,16 @@ public class WeatherForecastController : ControllerBase
     // }
     [HttpGet(Name = "GetWeatherForecast")]
     // 演示如何调用服务层
-    public async Task<List<UserViewObject>> Get()
+    // public async Task<List<UserVo>> Get()
+    public async Task<object> Get()
     {
-        var userService = new UserService();
-        var userList = await userService.Query();
-        return userList;
+        // var userService = new UserService();
+        // var userList = await userService.Query();
+        // return userList;
+        
+        // 测试一下拿到 Role
+        var roleService = new BaseServices<Role,RoleVo>();
+        var roleList = await roleService.Query();
+        return roleList;
     }
 }

@@ -1,6 +1,8 @@
 namespace AspNetBlog.Model;
 
+// 实体层角色模型
 public class Role
 { 
-        public string? RoleName { get; set; }
+        public int Id { get; set; }
+        public string? Name { get; set; }
 }
