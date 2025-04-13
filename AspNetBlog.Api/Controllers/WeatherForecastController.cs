@@ -1,6 +1,7 @@
 using AspNetBlog.IService;
 using AspNetBlog.Model;
 using AspNetBlog.Service;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetBlog.Api.Controllers;
@@ -15,10 +16,12 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly IMapper _mapper;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper)
     {
         _logger = logger;
+        _mapper = mapper;
     }
 
     // [HttpGet(Name = "GetWeatherForecast")]
@@ -43,8 +46,11 @@ public class WeatherForecastController : ControllerBase
         // return userList;
         
         // 测试一下拿到 Role
-        var roleService = new BaseServices<Role,RoleVo>();
+        var roleService = new BaseServices<Role,RoleVo>(_mapper);
         var roleList = await roleService.Query();
         return roleList;
+        // 更改为依赖注入
+        // var roleVoList2 = await _roleService.Query();
+        // return roleVoList2;
     }
 }
