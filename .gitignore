@@ -10,6 +10,7 @@
 bin/*
 obj/*
 *.csproj.user
+*.sln.DotSettings.user
 
 ## 默认
 bin/
