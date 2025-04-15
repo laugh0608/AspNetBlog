@@ -1,7 +1,7 @@
 using AspNetBlog.IService;
 using AspNetBlog.Model;
-using AspNetBlog.Service;
-using AutoMapper;
+// using AspNetBlog.Service;
+// using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetBlog.Api.Controllers;
@@ -16,12 +16,18 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly IMapper _mapper;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IMapper mapper)
+    private readonly IBaseServices<Role, RoleVo> _roleServices;
+    // private readonly IMapper _mapper;
+
+    // 相当于告诉依赖注入容器，我需要什么参数，你给我传输过来，然后在下面直接使用就可以
+    public WeatherForecastController(
+        ILogger<WeatherForecastController> logger,
+        IBaseServices<Role,RoleVo> roleServices) // IMapper mapper
     {
         _logger = logger;
-        _mapper = mapper;
+        _roleServices = roleServices;
+        // _mapper = mapper;
     }
 
     // [HttpGet(Name = "GetWeatherForecast")]
@@ -46,11 +52,10 @@ public class WeatherForecastController : ControllerBase
         // return userList;
         
         // 测试一下拿到 Role
-        var roleService = new BaseServices<Role,RoleVo>(_mapper);
-        var roleList = await roleService.Query();
-        return roleList;
+        // var roleService = new BaseServices<Role,RoleVo>(_mapper);
+        // var roleList = await roleService.Query();
         // 更改为依赖注入
-        // var roleVoList2 = await _roleService.Query();
-        // return roleVoList2;
+        var roleList = await _roleServices.Query();
+        return roleList;
     }
 }
