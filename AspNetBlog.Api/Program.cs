@@ -17,8 +17,9 @@ builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 AutoMapperConfig.RegisterMappings();
 
 // 实现原生依赖注入
-builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-builder.Services.AddScoped(typeof(IBaseServices<,>), typeof(BaseServices<,>));
+// builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+// builder.Services.AddScoped(typeof(IBaseServices<,>), typeof(BaseServices<,>));
+// 更改为 Autofac 注入
 
 var app = builder.Build();
 
