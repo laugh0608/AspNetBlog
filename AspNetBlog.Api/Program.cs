@@ -1,4 +1,4 @@
-using AspNetBlog.Api.Extensions;
+using AspNetBlog.Extension;
 using AspNetBlog.IService;
 using AspNetBlog.Repository.Base;
 using AspNetBlog.Service;
