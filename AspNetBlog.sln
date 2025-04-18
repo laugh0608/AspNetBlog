@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetBlog.IService", "AspN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetBlog.Service", "AspNetBlog.Service\AspNetBlog.Service.csproj", "{31CBE75C-5651-49A7-982A-135F8650731C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetBlog.Extension", "AspNetBlog.Extension\AspNetBlog.Extension.csproj", "{11746418-B38D-49E7-AD41-08B181363B08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{31CBE75C-5651-49A7-982A-135F8650731C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31CBE75C-5651-49A7-982A-135F8650731C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31CBE75C-5651-49A7-982A-135F8650731C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11746418-B38D-49E7-AD41-08B181363B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11746418-B38D-49E7-AD41-08B181363B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11746418-B38D-49E7-AD41-08B181363B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11746418-B38D-49E7-AD41-08B181363B08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
