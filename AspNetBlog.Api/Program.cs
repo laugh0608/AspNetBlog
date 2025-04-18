@@ -1,9 +1,15 @@
 using AspNetBlog.Extension;
-using AspNetBlog.IService;
-using AspNetBlog.Repository.Base;
-using AspNetBlog.Service;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 
+// 原生的依赖注入方法和容器
 var builder = WebApplication.CreateBuilder(args);
+// 更改为 Autofac 注入
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+    .ConfigureContainer<ContainerBuilder>(builder =>
+    {
+        builder.RegisterModule<>();
+    });
 
 // Add services to the container.
 
