@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder =>
     {
-        builder.RegisterModule<>();
+        builder.RegisterModule<AutofacModuleRegister>();
     });
 
 // Add services to the container.
