@@ -1,5 +1,6 @@
 using AspNetBlog.Api.Extensions;
 using AspNetBlog.Extension;
+using AspNetBlog.Extension.ServiceExtensions;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Controllers;

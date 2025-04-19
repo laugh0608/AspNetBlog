@@ -1,7 +1,7 @@
 using AspNetBlog.Model;
 using AutoMapper;
 
-namespace AspNetBlog.Extension;
+namespace AspNetBlog.Extension.ServiceExtensions;
 
 public class CustomProfiles : Profile
 {

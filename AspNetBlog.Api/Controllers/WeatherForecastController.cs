@@ -61,20 +61,23 @@ public class WeatherForecastController : ControllerBase
         // var roleList = await roleService.Query();
         // 更改为依赖注入
         // var roleList = await _roleServices.Query();
+        
         // 更改为 Autofac，测试一下多次调用实体的 hash 值是否发生变化
         // var roleList = await _roleServices.Query();
         // Console.WriteLine(_roleServices.GetHashCode());
         // var roleList2 = await _roleServices.Query();
         // Console.WriteLine(_roleServices.GetHashCode()); // Hash 值并不会发生变化
+        
         // Hash 值会发生变化的方式：
         // using var scope = _scopeFactory.CreateScope();
         // var dataStatisticService = scope.ServiceProvider.GetRequiredService<IBaseServices<Role, RoleVo>>();
         // var roleList = await dataStatisticService.Query();
         // var dataStatisticService2 = scope.ServiceProvider.GetRequiredService<IBaseServices<Role, RoleVo>>();
         // var roleList2 = await dataStatisticService.Query();
+        
         // 属性注册的方式：
         var roleList = await RoleServiceObj.Query();
-        
+        Console.WriteLine("Api Request end...");
         return roleList;
     }
 }
