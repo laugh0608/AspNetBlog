@@ -23,7 +23,7 @@ public class AutofacModuleRegister: Autofac.Module
         var assemblesServices = Assembly.LoadFrom(serviceDllFile);
         builder.RegisterAssemblyTypes(assemblesServices)
             .AsImplementedInterfaces()  // 接口
-            .InstancePerDependency()    // 顺带模式
+            .InstancePerDependency()    // 瞬态
             .PropertiesAutowired();     // 属性
 
         // 获取 Repository.dll 程序集服务，并注册

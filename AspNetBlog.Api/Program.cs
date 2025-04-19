@@ -1,18 +1,24 @@
+using AspNetBlog.Api.Extensions;
 using AspNetBlog.Extension;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 // 原生的依赖注入方法和容器
 var builder = WebApplication.CreateBuilder(args);
 // 更改为 Autofac 注入
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+builder.Host
+    .UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(builder =>
     {
-        builder.RegisterModule<AutofacModuleRegister>();
+        builder.RegisterModule<AutofacModuleRegister>();    // 模型注册
+        builder.RegisterModule<AutofacPropertityModuleReg>();   // 属性注册
     });
 
 // Add services to the container.
-
+// 添加激活控制器，如果控制器不走容器的话，是没办法将容器内的属性通过加载的方式进行完成
+builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

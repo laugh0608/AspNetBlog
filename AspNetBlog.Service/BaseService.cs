@@ -31,8 +31,10 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
         // var baseRepo = new BaseRepository<TEntity>();
         // 实体模型要暴露到外部就要转换为视图模型
         var entities = await _baseRepository.Query();
+        // 检查一下多次调用时数据体是否会发生变化
+        Console.WriteLine($"_baseRepository 实例 HashCode: {_baseRepository.GetHashCode()}"); // 结果值是一样的
         // 对象关系映射
-        var llout = _mapper.Map<List<TVo>>(entities);
-        return llout;
+        var lout = _mapper.Map<List<TVo>>(entities);
+        return lout;
     }
 }
