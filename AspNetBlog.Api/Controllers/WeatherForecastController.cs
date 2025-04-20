@@ -1,3 +1,4 @@
+using AspNetBlog.Common;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
 // using AspNetBlog.Service;
@@ -77,6 +78,13 @@ public class WeatherForecastController : ControllerBase
         
         // 属性注册的方式：
         var roleList = await RoleServiceObj.Query();
+        
+        // appsettings 配置获取
+        var redisEnable = AppSettings.App(new []{"Redis", "Enable"});
+        // 类似的还有第二种获取的方式：
+        var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
+        Console.WriteLine($"Enable: {redisEnable} , RedisConnectionString: {redisConnectionString}");
+        
         Console.WriteLine("Api Request end...");
         return roleList;
     }
