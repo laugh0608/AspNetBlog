@@ -1,9 +1,12 @@
 using AspNetBlog.Common;
+using AspNetBlog.Common.Option;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
 // using AspNetBlog.Service;
 // using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace AspNetBlog.Api.Controllers;
 
@@ -19,6 +22,7 @@ public class WeatherForecastController : ControllerBase
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IBaseServices<Role, RoleVo> _roleServices;
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly IOptions<RedisOptions> _redisOption;
     // private readonly IMapper _mapper;
     
     // 属性注册
@@ -28,11 +32,13 @@ public class WeatherForecastController : ControllerBase
     public WeatherForecastController(
         ILogger<WeatherForecastController> logger,
         IBaseServices<Role,RoleVo> roleServices,
-        IServiceScopeFactory scopeFactory) // IMapper mapper
+        IServiceScopeFactory scopeFactory,
+        IOptions<RedisOptions> redisOption) // IMapper mapper
     {
         _logger = logger;
         _roleServices = roleServices;
         _scopeFactory = scopeFactory;
+        _redisOption = redisOption;
         // _mapper = mapper;
     }
 
@@ -84,6 +90,9 @@ public class WeatherForecastController : ControllerBase
         // 类似的还有第二种获取的方式：
         var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
         Console.WriteLine($"Enable: {redisEnable} , RedisConnectionString: {redisConnectionString}");
+        // 另一种 option 方法获取配置：
+        var redisOption = _redisOption.Value;
+        Console.WriteLine(JsonConvert.SerializeObject(redisOption));
         
         Console.WriteLine("Api Request end...");
         return roleList;

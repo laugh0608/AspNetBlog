@@ -1,5 +1,6 @@
 using AspNetBlog.Api.Extensions;
 using AspNetBlog.Common;
+using AspNetBlog.Common.Option;
 using AspNetBlog.Extension;
 using AspNetBlog.Extension.ServiceExtensions;
 using Autofac;
@@ -16,6 +17,10 @@ builder.Host
     {
         builder.RegisterModule<AutofacModuleRegister>();    // 模型注册
         builder.RegisterModule<AutofacPropertityModuleReg>();   // 属性注册
+    })
+    .ConfigureAppConfiguration((hostingContext, config) =>
+    {
+        hostingContext.Configuration.ConfigureApplication();
     });
 
 // Add services to the container.
@@ -37,6 +42,7 @@ AutoMapperConfig.RegisterMappings();
 
 // appsettings 配置
 builder.Services.AddSingleton(new AppSettings(builder.Configuration));
+builder.Services.AddAllOptionRegister();
 
 var app = builder.Build();
 
