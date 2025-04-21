@@ -1,4 +1,5 @@
 using AspNetBlog.Common;
+using AspNetBlog.Common.Core;
 using AspNetBlog.Common.Option;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
@@ -82,17 +83,22 @@ public class WeatherForecastController : ControllerBase
         // var dataStatisticService2 = scope.ServiceProvider.GetRequiredService<IBaseServices<Role, RoleVo>>();
         // var roleList2 = await dataStatisticService.Query();
         
-        // 属性注册的方式：
-        var roleList = await RoleServiceObj.Query();
+        // // 属性注册的方式：
+        // var roleList = await RoleServiceObj.Query();
+        // // appsettings 配置获取
+        // var redisEnable = AppSettings.App(new []{"Redis", "Enable"});
+        // // 类似的还有第二种获取的方式：
+        // var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
+        // Console.WriteLine($"Enable: {redisEnable} , RedisConnectionString: {redisConnectionString}");
+        // // 另一种 option 方法获取配置：
+        // var redisOption = _redisOption.Value;
+        // Console.WriteLine(JsonConvert.SerializeObject(redisOption));
         
-        // appsettings 配置获取
-        var redisEnable = AppSettings.App(new []{"Redis", "Enable"});
-        // 类似的还有第二种获取的方式：
-        var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
-        Console.WriteLine($"Enable: {redisEnable} , RedisConnectionString: {redisConnectionString}");
-        // 另一种 option 方法获取配置：
-        var redisOption = _redisOption.Value;
-        Console.WriteLine(JsonConvert.SerializeObject(redisOption));
+        // 测试非依赖注入方式获取 App
+        var roleServiceObjNew = App.GetService<IBaseServices<Role, RoleVo>>(false);
+        var roleList = await roleServiceObjNew.Query();
+        var redisOptions = App.GetOptions<RedisOptions>();
+        Console.WriteLine(redisOptions);
         
         Console.WriteLine("Api Request end...");
         return roleList;

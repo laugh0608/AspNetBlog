@@ -1,5 +1,6 @@
 using AspNetBlog.Api.Extensions;
 using AspNetBlog.Common;
+using AspNetBlog.Common.Core;
 using AspNetBlog.Common.Option;
 using AspNetBlog.Extension;
 using AspNetBlog.Extension.ServiceExtensions;
@@ -20,8 +21,11 @@ builder.Host
     })
     .ConfigureAppConfiguration((hostingContext, config) =>
     {
+        // 拿到 app 配置项
         hostingContext.Configuration.ConfigureApplication();
     });
+// 拿到 web 环境变量
+builder.ConfigureApplication();
 
 // Add services to the container.
 // 添加激活控制器，如果控制器不走容器的话，是没办法将容器内的属性通过加载的方式进行完成
@@ -45,6 +49,10 @@ builder.Services.AddSingleton(new AppSettings(builder.Configuration));
 builder.Services.AddAllOptionRegister();
 
 var app = builder.Build();
+// 从获取的配置项配置 app 实例，拿到 service
+app.ConfigureApplication();
+// 配置 app 启动
+app.UseApplicationSetup();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
