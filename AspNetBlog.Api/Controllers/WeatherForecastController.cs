@@ -1,4 +1,5 @@
 using AspNetBlog.Common;
+using AspNetBlog.Common.Caches;
 using AspNetBlog.Common.Core;
 using AspNetBlog.Common.Option;
 using AspNetBlog.IService;
@@ -6,6 +7,7 @@ using AspNetBlog.Model;
 // using AspNetBlog.Service;
 // using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -24,6 +26,8 @@ public class WeatherForecastController : ControllerBase
     private readonly IBaseServices<Role, RoleVo> _roleServices;
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IOptions<RedisOptions> _redisOption;
+
+    private readonly ICaching _caching;
     // private readonly IMapper _mapper;
     
     // 属性注册
@@ -34,12 +38,14 @@ public class WeatherForecastController : ControllerBase
         ILogger<WeatherForecastController> logger,
         IBaseServices<Role,RoleVo> roleServices,
         IServiceScopeFactory scopeFactory,
-        IOptions<RedisOptions> redisOption) // IMapper mapper
+        IOptions<RedisOptions> redisOption,
+        ICaching caching) // IMapper mapper
     {
         _logger = logger;
         _roleServices = roleServices;
         _scopeFactory = scopeFactory;
         _redisOption = redisOption;
+        _caching = caching;
         // _mapper = mapper;
     }
 
@@ -95,12 +101,26 @@ public class WeatherForecastController : ControllerBase
         // Console.WriteLine(JsonConvert.SerializeObject(redisOption));
         
         // 测试非依赖注入方式获取 App
-        var roleServiceObjNew = App.GetService<IBaseServices<Role, RoleVo>>(false);
-        var roleList = await roleServiceObjNew.Query();
-        var redisOptions = App.GetOptions<RedisOptions>();
-        Console.WriteLine(redisOptions);
+        // var roleServiceObjNew = App.GetService<IBaseServices<Role, RoleVo>>(false);
+        // var roleList = await roleServiceObjNew.Query();
+        // var redisOptions = App.GetOptions<RedisOptions>();
+        // Console.WriteLine(redisOptions);
+        
+        // 测试缓存，先获取当前所有的缓存 key
+        var cacheKey = "cache-key";
+        List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
+        await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(cacheKeys));
+        // 测试添加一个缓存
+        await Console.Out.WriteLineAsync("添加了一个缓存");
+        await _caching.SetStringAsync(cacheKey, "hello world");
+        await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+        await Console.Out.WriteLineAsync("当前key内容-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
+        // 测试删除这个缓存
+        await Console.Out.WriteLineAsync("删除key");
+        await _caching.RemoveAsync(cacheKey);
+        await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
         
         Console.WriteLine("Api Request end...");
-        return roleList;
+        return "";
     }
 }

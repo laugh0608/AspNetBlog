@@ -48,6 +48,9 @@ AutoMapperConfig.RegisterMappings();
 builder.Services.AddSingleton(new AppSettings(builder.Configuration));
 builder.Services.AddAllOptionRegister();
 
+// 配置缓存
+builder.Services.AddCacheSetup();
+
 var app = builder.Build();
 // 从获取的配置项配置 app 实例，拿到 service
 app.ConfigureApplication();
