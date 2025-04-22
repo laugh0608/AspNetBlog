@@ -51,6 +51,9 @@ builder.Services.AddAllOptionRegister();
 // 配置缓存
 builder.Services.AddCacheSetup();
 
+// 配置数据库 ORM
+builder.Services.AddSqlsugarSetup();
+
 var app = builder.Build();
 // 从获取的配置项配置 app 实例，拿到 service
 app.ConfigureApplication();

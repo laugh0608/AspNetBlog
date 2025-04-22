@@ -106,21 +106,23 @@ public class WeatherForecastController : ControllerBase
         // var redisOptions = App.GetOptions<RedisOptions>();
         // Console.WriteLine(redisOptions);
         
-        // 测试缓存，先获取当前所有的缓存 key
-        var cacheKey = "cache-key";
-        List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
-        await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(cacheKeys));
-        // 测试添加一个缓存
-        await Console.Out.WriteLineAsync("添加了一个缓存");
-        await _caching.SetStringAsync(cacheKey, "hello world");
-        await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
-        await Console.Out.WriteLineAsync("当前key内容-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
-        // 测试删除这个缓存
-        await Console.Out.WriteLineAsync("删除key");
-        await _caching.RemoveAsync(cacheKey);
-        await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+        // // 测试缓存，先获取当前所有的缓存 key
+        // var cacheKey = "cache-key";
+        // List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
+        // await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(cacheKeys));
+        // // 测试添加一个缓存
+        // await Console.Out.WriteLineAsync("添加了一个缓存");
+        // await _caching.SetStringAsync(cacheKey, "hello world");
+        // await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+        // await Console.Out.WriteLineAsync("当前key内容-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
+        // // 测试删除这个缓存
+        // await Console.Out.WriteLineAsync("删除key");
+        // await _caching.RemoveAsync(cacheKey);
+        // await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
         
+        // 测试数据库链接
+        var roleList = await RoleServiceObj.Query();
         Console.WriteLine("Api Request end...");
-        return "";
+        return roleList;
     }
 }

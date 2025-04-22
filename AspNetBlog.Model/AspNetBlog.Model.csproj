@@ -10,4 +10,8 @@
       <ProjectReference Include="..\AspNetBlog.Common\AspNetBlog.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SqlSugarCore" Version="5.1.4.189" />
+    </ItemGroup>
+
 </Project>
