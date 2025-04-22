@@ -4,5 +4,5 @@
 // 用来不给顶层 API 暴露数据库字段
 public class UserVo
 {
-    public string? UserName { get; set; }
+    public string UserName { get; set; }
 }

@@ -1,8 +1,11 @@
 using Newtonsoft.Json;
 
-namespace AspNetBlog.Common;
-
-public static class UtilConvert
+namespace AspNetBlog.Common
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class UtilConvert
     {
         /// <summary>
         /// 
@@ -46,7 +49,7 @@ public static class UtilConvert
             {
                 return reval;
             }
-
+            
             return reval;
         }
 
@@ -303,3 +306,4 @@ public static class UtilConvert
             return source.Any() && source.All(s => s != null);
         }
     }
+}

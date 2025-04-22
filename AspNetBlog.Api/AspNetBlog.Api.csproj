@@ -7,10 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AspNetBlog.Common\AspNetBlog.Common.csproj" />
       <ProjectReference Include="..\AspNetBlog.Extension\AspNetBlog.Extension.csproj" />
       <ProjectReference Include="..\AspNetBlog.Service\AspNetBlog.Service.csproj" />
     </ItemGroup>

@@ -1,15 +1,9 @@
-using AspNetBlog.Common;
 using AspNetBlog.Common.Caches;
-using AspNetBlog.Common.Core;
 using AspNetBlog.Common.Option;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
-// using AspNetBlog.Service;
-// using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace AspNetBlog.Api.Controllers;
 
@@ -109,16 +103,16 @@ public class WeatherForecastController : ControllerBase
         // // 测试缓存，先获取当前所有的缓存 key
         // var cacheKey = "cache-key";
         // List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
-        // await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(cacheKeys));
+        // await Console.Out.WriteLineAsync("全部 keys-->" + JsonConvert.SerializeObject(cacheKeys));
         // // 测试添加一个缓存
         // await Console.Out.WriteLineAsync("添加了一个缓存");
         // await _caching.SetStringAsync(cacheKey, "hello world");
-        // await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
-        // await Console.Out.WriteLineAsync("当前key内容-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
+        // await Console.Out.WriteLineAsync("全部 keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+        // await Console.Out.WriteLineAsync("当前 key内容-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
         // // 测试删除这个缓存
-        // await Console.Out.WriteLineAsync("删除key");
+        // await Console.Out.WriteLineAsync("删除 key");
         // await _caching.RemoveAsync(cacheKey);
-        // await Console.Out.WriteLineAsync("全部keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+        // await Console.Out.WriteLineAsync("全部 keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
         
         // 测试数据库链接
         var roleList = await RoleServiceObj.Query();

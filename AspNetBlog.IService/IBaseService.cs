@@ -1,7 +1,7 @@
 namespace AspNetBlog.IService;
 
-// 也是一个泛型
 public interface IBaseServices<TEntity, TVo> where TEntity : class
 {
+    Task<long> Add(TEntity entity);
     Task<List<TVo>> Query();
 }

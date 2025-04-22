@@ -24,12 +24,22 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _dbBase = sqlSugarClient;
     }
 
-
     public ISqlSugarClient Db => _dbBase;
 
     public async Task<List<TEntity>> Query()
     {
         await Console.Out.WriteLineAsync(Db.GetHashCode().ToString());
         return await _dbBase.Queryable<TEntity>().ToListAsync();
+    }
+    
+    /// <summary>
+    /// 向数据库中写入实体数据
+    /// </summary>
+    /// <param name="entity">博文实体类</param>
+    /// <returns></returns>
+    public async Task<long> Add(TEntity entity)
+    {
+        var insert = _dbBase.Insertable(entity);
+        return await insert.ExecuteReturnSnowflakeIdAsync();
     }
 }

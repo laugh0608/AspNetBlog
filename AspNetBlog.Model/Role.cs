@@ -7,7 +7,7 @@ namespace AspNetBlog.Model;
 /// <summary>
 /// 角色表
 /// </summary>
-public class Role : RootEntityTKey<int>
+public class Role : RootEntityTKey<long>
 {
 
     /// <summary>

@@ -34,7 +34,17 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
         // 检查一下多次调用时数据体是否会发生变化
         Console.WriteLine($"_baseRepository 实例 HashCode: {_baseRepository.GetHashCode()}"); // 结果值是一样的
         // 对象关系映射
-        var lout = _mapper.Map<List<TVo>>(entities);
-        return lout;
+        var llout = _mapper.Map<List<TVo>>(entities);
+        return llout;
+    }
+
+    /// <summary>
+    /// 向数据库中写入实体数据
+    /// </summary>
+    /// <param name="entity">博文实体类</param>
+    /// <returns></returns>
+    public async Task<long> Add(TEntity entity)
+    {
+        return await _baseRepository.Add(entity);
     }
 }

@@ -4,5 +4,5 @@ namespace AspNetBlog.Model;
 // 用来不给顶层 API 暴露数据库字段
 public class RoleVo
 {
-    public string? RoleName { get; set; }
+    public string RoleName { get; set; }
 }

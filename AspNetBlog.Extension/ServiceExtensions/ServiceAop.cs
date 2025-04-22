@@ -103,7 +103,7 @@ namespace AspNetBlog.Extension.ServiceExtensions;
 
             await Task.Run(() =>
             {
-                Console.WriteLine("执行成功-->" + JsonConvert.SerializeObject(apiLogAopInfo));
+                //Console.WriteLine("执行成功-->" + JsonConvert.SerializeObject(apiLogAopInfo));
             });
         }
 
@@ -111,7 +111,7 @@ namespace AspNetBlog.Extension.ServiceExtensions;
         {
             if (ex != null)
             {
-                Console.WriteLine("error!!!:" + ex.Message + JsonConvert.SerializeObject(dataIntercept));
+                Console.WriteLine("[ERROR]:" + ex.Message + JsonConvert.SerializeObject(dataIntercept));
             }
         }
 

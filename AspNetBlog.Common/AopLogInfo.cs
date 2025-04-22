@@ -11,7 +11,7 @@ public class AopLogInfo
     public string RequestMethodName { get; set; } = string.Empty;
     // 请求参数名
     public string RequestParamsName { get; set; } = string.Empty;
-    // 请求参数数据JSON
+    // 请求参数数据 JSON
     public string RequestParamsData { get; set; } = string.Empty;
     // 请求响应间隔时间
     public string ResponseIntervalTime { get; set; } = string.Empty;
