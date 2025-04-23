@@ -6,4 +6,6 @@ namespace AspNetBlog.IService;
 public interface IUserService
 {
     Task<List<UserVo>> Query();
+    
+    Task<bool> TestTranPropagation();
 }

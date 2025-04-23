@@ -1,8 +1,7 @@
 using AspNetBlog.IService;
-// using AspNetBlog.Model;
-// using AspNetBlog.Repository;
 using AspNetBlog.Repository.Base;
 using AutoMapper;
+using SqlSugar;
 
 namespace AspNetBlog.Service;
 
@@ -11,6 +10,7 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
 {
     private readonly IMapper _mapper;
     private readonly IBaseRepository<TEntity> _baseRepository;
+    public ISqlSugarClient Db => _baseRepository.Db;
 
     // 依赖注入，类似于一种注册表的形式
     public BaseServices(IMapper mapper, IBaseRepository<TEntity> baseRepository)
@@ -18,6 +18,7 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
         _mapper = mapper;
         _baseRepository = baseRepository;
     }
+    
     // public async Task<List<TEntity>> Query()
     // {
     //     var baseRepo = new BaseRepository<TEntity>();

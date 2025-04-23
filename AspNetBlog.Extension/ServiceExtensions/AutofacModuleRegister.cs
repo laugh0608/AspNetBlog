@@ -1,6 +1,7 @@
 using System.Reflection;
 using AspNetBlog.IService;
 using AspNetBlog.Repository.Base;
+using AspNetBlog.Repository.UnitOfWork;
 using AspNetBlog.Service;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
@@ -41,5 +42,11 @@ public class AutofacModuleRegister: Autofac.Module
             .AsImplementedInterfaces()
             .PropertiesAutowired()
             .InstancePerDependency();
+        
+        // 注册事务模型
+        builder.RegisterType<UnitOfWorkManage>().As<IUnitOfWorkManage>()
+            .AsImplementedInterfaces()
+            .InstancePerLifetimeScope()
+            .PropertiesAutowired();
     }
 }

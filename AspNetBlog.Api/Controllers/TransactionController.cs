@@ -11,11 +11,15 @@ namespace AspNetBlog.Api.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly IBaseServices<Role, RoleVo> _roleService;
+        private readonly IUserService _userService;
         private readonly IUnitOfWorkManage _unitOfWorkManage;
 
-        public TransactionController(IBaseServices<Role, RoleVo> roleService, IUnitOfWorkManage unitOfWorkManage)
+        public TransactionController(IBaseServices<Role, RoleVo> roleService,
+            IUserService userService,
+            IUnitOfWorkManage unitOfWorkManage)
         {
             _roleService = roleService;
+            _userService = userService;
             _unitOfWorkManage = unitOfWorkManage;
         }
 
@@ -59,6 +63,13 @@ namespace AspNetBlog.Api.Controllers
             }
 
             return "ok";
+        }
+        
+        // 测试事务
+        [HttpGet]
+        public async Task<object> TestTranPropagation()
+        {
+            return await _userService.TestTranPropagation();
         }
     }
 }

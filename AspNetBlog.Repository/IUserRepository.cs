@@ -4,5 +4,5 @@ namespace AspNetBlog.Repository;
 
 public interface IUserRepository
 {
-    Task<List<User>> Query();
+    Task<List<SysUserInfo>> Query();
 }
