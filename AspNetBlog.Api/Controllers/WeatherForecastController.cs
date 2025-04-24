@@ -18,29 +18,29 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IBaseServices<Role, RoleVo> _roleServices;
+    private readonly IBaseServices<AuditSqlLog, AuditSqlLog> _auditSqlLogService;
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IOptions<RedisOptions> _redisOption;
-
     private readonly ICaching _caching;
-    // private readonly IMapper _mapper;
     
     // 属性注册
-    public IBaseServices<Role,RoleVo> RoleServiceObj { get; set; }
+    public IBaseServices<Role,RoleVo>? _roleServiceObj { get; set; }
 
     // 相当于告诉依赖注入容器，我需要什么参数，你给我传输过来，然后在下面直接使用就可以
-    public WeatherForecastController(
-        ILogger<WeatherForecastController> logger,
+    public WeatherForecastController(ILogger<WeatherForecastController> logger,
         IBaseServices<Role,RoleVo> roleServices,
+        IBaseServices<AuditSqlLog, AuditSqlLog> auditSqlLogService,
         IServiceScopeFactory scopeFactory,
         IOptions<RedisOptions> redisOption,
-        ICaching caching) // IMapper mapper
+        // IMapper mapper
+        ICaching caching)
     {
         _logger = logger;
         _roleServices = roleServices;
+        _auditSqlLogService = auditSqlLogService;
         _scopeFactory = scopeFactory;
         _redisOption = redisOption;
         _caching = caching;
-        // _mapper = mapper;
     }
 
     // [HttpGet(Name = "GetWeatherForecast")]
@@ -84,7 +84,7 @@ public class WeatherForecastController : ControllerBase
         // var roleList2 = await dataStatisticService.Query();
         
         // // 属性注册的方式：
-        // var roleList = await RoleServiceObj.Query();
+        // var roleList = await _roleServiceObj.Query();
         // // appsettings 配置获取
         // var redisEnable = AppSettings.App(new []{"Redis", "Enable"});
         // // 类似的还有第二种获取的方式：
@@ -114,9 +114,13 @@ public class WeatherForecastController : ControllerBase
         // await _caching.RemoveAsync(cacheKey);
         // await Console.Out.WriteLineAsync("全部 keys-->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
         
-        // 测试数据库链接
-        var roleList = await RoleServiceObj.Query();
+        // 测试主数据库链接
+        var roleList = await _roleServiceObj.Query();
+        
+        // 测试日志数据库链接
+        var rltList = await _auditSqlLogService.Query();
+        
         Console.WriteLine("Api Request end...");
-        return roleList;
+        return rltList;
     }
 }

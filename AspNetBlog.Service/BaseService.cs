@@ -1,3 +1,4 @@
+using AspNetBlog.Common.Attribute;
 using AspNetBlog.IService;
 using AspNetBlog.Repository.Base;
 using AutoMapper;
@@ -44,6 +45,7 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
     /// </summary>
     /// <param name="entity">博文实体类</param>
     /// <returns></returns>
+    // [UseTran(Propagation = Propagation.Required)]
     public async Task<long> Add(TEntity entity)
     {
         return await _baseRepository.Add(entity);
