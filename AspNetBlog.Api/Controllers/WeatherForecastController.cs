@@ -12,7 +12,8 @@ namespace AspNetBlog.Api.Controllers;
 [ApiController]
 [Route("[controller]")]
 // 加权
-[Authorize]
+//[Authorize(Roles = "SuperAdmin")]
+[Authorize(Policy = "Client")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -26,7 +27,8 @@ public class WeatherForecastController : ControllerBase
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly IOptions<RedisOptions> _redisOption;
     private readonly ICaching _caching;
-    
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
     // 属性注册
     public IBaseServices<Role,RoleVo>? _roleServiceObj { get; set; }
 
@@ -36,6 +38,7 @@ public class WeatherForecastController : ControllerBase
         IBaseServices<AuditSqlLog, AuditSqlLog> auditSqlLogService,
         IServiceScopeFactory scopeFactory,
         IOptions<RedisOptions> redisOption,
+        IHttpContextAccessor httpContextAccessor,
         // IMapper mapper
         ICaching caching)
     {
@@ -44,6 +47,7 @@ public class WeatherForecastController : ControllerBase
         _auditSqlLogService = auditSqlLogService;
         _scopeFactory = scopeFactory;
         _redisOption = redisOption;
+        _httpContextAccessor = httpContextAccessor;
         _caching = caching;
     }
 
@@ -64,6 +68,13 @@ public class WeatherForecastController : ControllerBase
     // public async Task<List<UserVo>> Get()
     public async Task<object> Get()
     {
+        Console.WriteLine("api request begin...");
+ 
+        var httpContext = _httpContextAccessor.HttpContext?.User.Claims.ToList();
+        foreach (var item in httpContext)
+        {
+            await Console.Out.WriteLineAsync($"{item.Type} : {item.Value}");
+        }
         // var userService = new UserService();
         // var userList = await userService.Query();
         // return userList;
