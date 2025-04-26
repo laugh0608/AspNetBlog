@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using AspNetBlog.Common.Attribute;
 using AspNetBlog.IService;
 using AspNetBlog.Repository.Base;
@@ -49,5 +50,15 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
     public async Task<long> Add(TEntity entity)
     {
         return await _baseRepository.Add(entity);
+    }
+    
+    public async Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null)
+    {
+        return await _baseRepository.QuerySplit(whereExpression, orderByFields);
+    }
+
+    public async Task<List<long>> AddSplit(TEntity entity)
+    {
+        return await _baseRepository.AddSplit(entity);
     }
 }

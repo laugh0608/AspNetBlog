@@ -1,3 +1,4 @@
+using AspNetBlog.Common;
 using AspNetBlog.Common.Caches;
 using AspNetBlog.Common.Option;
 using AspNetBlog.IService;
@@ -117,8 +118,20 @@ public class WeatherForecastController : ControllerBase
         // 测试主数据库链接
         var roleList = await _roleServiceObj.Query();
         
+        // 测试自动建表
+        TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        var id = timeSpan.TotalSeconds.ObjToLong();
+        await _auditSqlLogService.AddSplit(new AuditSqlLog()
+        {
+            Id = id,
+            DateTime = Convert.ToDateTime("2023-12-23"),
+            // DateTime = DateTime.Now,
+        });
         // 测试日志数据库链接
-        var rltList = await _auditSqlLogService.Query();
+        // var rltList = await _auditSqlLogService.Query();
+        // 测试分表
+        // var rltList = await _auditSqlLogService.QuerySplit(d => true);
+        var rltList = await _auditSqlLogService.QuerySplit(d => d.DateTime <= Convert.ToDateTime("2023-12-24"));
         
         Console.WriteLine("Api Request end...");
         return rltList;

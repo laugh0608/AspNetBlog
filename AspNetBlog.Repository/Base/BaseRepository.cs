@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.Reflection;
 using AspNetBlog.Repository.UnitOfWork;
 using Newtonsoft.Json;
@@ -69,5 +70,33 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         var insert = _db.Insertable(entity);
         return await insert.ExecuteReturnSnowflakeIdAsync();
+    }
+    
+    /// <summary>
+    /// 分表查询
+    /// </summary>
+    /// <param name="whereExpression">条件表达式</param>
+    /// <param name="orderByFields">排序字段，如 name asc,age desc</param>
+    /// <returns></returns>
+    public async Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression,
+        string orderByFields = null)
+    {
+        return await _db.Queryable<TEntity>()
+            .SplitTable()
+            .OrderByIF(!string.IsNullOrEmpty(orderByFields), orderByFields)
+            .WhereIF(whereExpression != null, whereExpression)
+            .ToListAsync();
+    }
+
+    /// <summary>
+    /// 写入实体数据
+    /// </summary>
+    /// <param name="entity">数据实体</param>
+    /// <returns></returns>
+    public async Task<List<long>> AddSplit(TEntity entity)
+    {
+        var insert = _db.Insertable(entity).SplitTable();
+        // 插入并返回雪花 ID 并且自动赋值 ID　
+        return await insert.ExecuteReturnSnowflakeIdListAsync();
     }
 }

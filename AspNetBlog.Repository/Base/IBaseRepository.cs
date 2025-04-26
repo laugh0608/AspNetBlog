@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using SqlSugar;
 
 namespace AspNetBlog.Repository.Base;
@@ -8,9 +9,13 @@ public interface IBaseRepository<TEntity> where TEntity : class
 {
     // 添加暴露数据库拿到的数据，仅对外部访问
     ISqlSugarClient Db { get; }
+    
+    Task<List<long>> AddSplit(TEntity entity);
 
     Task<long> Add(TEntity entity);
 
     // 然后给 TEntity 返回一个 List
     Task<List<TEntity>> Query();
+    
+    Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null);
 }
