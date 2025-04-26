@@ -3,6 +3,7 @@ using AspNetBlog.Common.Caches;
 using AspNetBlog.Common.Option;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -10,6 +11,8 @@ namespace AspNetBlog.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+// 加权
+[Authorize]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
