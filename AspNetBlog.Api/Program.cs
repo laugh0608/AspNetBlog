@@ -6,6 +6,7 @@ using AspNetBlog.Extension.ServiceExtensions;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
@@ -73,7 +74,10 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Client", policy => policy.RequireClaim("iss", "Blog.Core").Build());
     options.AddPolicy("SuperAdmin", policy => policy.RequireRole("SuperAdmin").Build());
     options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("SuperAdmin", "System"));
+    
+    options.AddPolicy("Permission", policy => policy.Requirements.Add(new PermissionRequirement()));
 });
+builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirement>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();

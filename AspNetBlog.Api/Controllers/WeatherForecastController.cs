@@ -13,7 +13,8 @@ namespace AspNetBlog.Api.Controllers;
 [Route("[controller]")]
 // 加权
 //[Authorize(Roles = "SuperAdmin")]
-[Authorize(Policy = "Client")]
+// [Authorize(Policy = "Client")]
+[Authorize("Permission")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
