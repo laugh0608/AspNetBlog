@@ -1,4 +1,4 @@
-namespace AspNetBlog.Model;
+namespace AspNetBlog.Model.Vo;
 
 // 角色视图模型
 // 用来不给顶层 API 暴露数据库字段

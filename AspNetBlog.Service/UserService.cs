@@ -2,6 +2,8 @@
 using AspNetBlog.Common.Attribute;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
+using AspNetBlog.Model.Vo;
+using AspNetBlog.Repository;
 using AspNetBlog.Repository.Base;
 using AutoMapper;
 
@@ -21,10 +23,20 @@ namespace AspNetBlog.Service;
 public class UserService : BaseServices<SysUserInfo, UserVo>, IUserService
 {
     private readonly IDepartmentServices _departmentServices;
+    private readonly IBaseRepository<Role> _roleRepository;
+    private readonly IBaseRepository<UserRole> _userRoleRepository;
+    private readonly IUserRepository _userRepository;
 
-    public UserService(IDepartmentServices departmentServices, IMapper mapper, IBaseRepository<SysUserInfo> baseRepository) : base(mapper, baseRepository)
+    public UserService(IDepartmentServices departmentServices,
+        IBaseRepository<Role> roleRepository,
+        IBaseRepository<UserRole> userRoleRepository,
+        IUserRepository userRepository,
+        IMapper mapper, IBaseRepository<SysUserInfo> baseRepository) : base(mapper, baseRepository)
     {
         _departmentServices = departmentServices;
+        _roleRepository = roleRepository;
+        _userRoleRepository = userRoleRepository;
+        _userRepository = userRepository;
     }
 
 
@@ -53,9 +65,31 @@ public class UserService : BaseServices<SysUserInfo, UserVo>, IUserService
             Enable = true,
             TenantId = 0,
         });
-
         await _departmentServices.TestTranPropagation2();
-
         return true;
+    }
+    
+    public async Task<string> GetUserRoleNameStr(string loginName, string loginPwd)
+    {
+        string roleName = "";
+        var user = (await base.Query(a => a.LoginName == loginName && a.LoginPWD == loginPwd)).FirstOrDefault();
+        var roleList = await _roleRepository.Query(a => a.IsDeleted == false);
+        if (user != null)
+        {
+            var userRoles = await _userRoleRepository.Query(ur => ur.UserId == user.Id);
+            if (userRoles.Count > 0)
+            {
+                var arr = userRoles.Select(ur => ur.RoleId.ObjToString()).ToList();
+                var roles = roleList.Where(d => arr.Contains(d.Id.ObjToString()));
+
+                roleName = string.Join(',', roles.Select(r => r.Name).ToArray());
+            }
+        }
+        return roleName;
+    }
+
+    public async Task<List<RoleModulePermission>> RoleModuleMaps()
+    {
+        return await _userRepository.RoleModuleMaps();
     }
 }

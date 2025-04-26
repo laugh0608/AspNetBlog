@@ -1,7 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using AspNetBlog.Common.Core;
 using AspNetBlog.Repository.UnitOfWork;
-using Newtonsoft.Json;
 using SqlSugar;
 
 namespace AspNetBlog.Repository.Base;
@@ -45,7 +45,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
                 db = _dbBase.GetConnectionScope(tenantAttr.configId.ToString().ToLower());
                 return db;
             }
-
             return db;
         }
     }
@@ -55,10 +54,14 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         _dbBase = unitOfWorkManage.GetDbClient();
     }
 
-    public async Task<List<TEntity>> Query()
+    public async Task<List<TEntity>> Query(Expression<Func<TEntity, bool>> whereExpression = null)
     {
         await Console.Out.WriteLineAsync(Db.GetHashCode().ToString());
-        return await _db.Queryable<TEntity>().ToListAsync();
+        return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).ToListAsync();
+    }
+    public async Task<List<TEntity>> QueryWithCache(Expression<Func<TEntity, bool>> whereExpression = null)
+    {
+        return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).WithCache().ToListAsync();
     }
     
     /// <summary>
@@ -98,5 +101,18 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var insert = _db.Insertable(entity).SplitTable();
         // 插入并返回雪花 ID 并且自动赋值 ID　
         return await insert.ExecuteReturnSnowflakeIdListAsync();
+    }
+    
+    public async Task<List<TResult>> QueryMuch<T, T2, T3, TResult>(
+        Expression<Func<T, T2, T3, object[]>> joinExpression,
+        Expression<Func<T, T2, T3, TResult>> selectExpression,
+        Expression<Func<T, T2, T3, bool>> whereLambda = null) where T : class, new()
+    {
+        if (whereLambda == null)
+        {
+            return await _db.Queryable(joinExpression).Select(selectExpression).ToListAsync();
+        }
+
+        return await _db.Queryable(joinExpression).Where(whereLambda).Select(selectExpression).ToListAsync();
     }
 }

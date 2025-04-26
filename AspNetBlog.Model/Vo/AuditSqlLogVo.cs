@@ -1,4 +1,4 @@
-namespace AspNetBlog.Model;
+namespace AspNetBlog.Model.Vo;
 
 public class AuditSqlLogVo
 {

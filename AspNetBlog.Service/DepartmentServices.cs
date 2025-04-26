@@ -2,6 +2,7 @@ using AspNetBlog.Common;
 using AspNetBlog.Common.Attribute;
 using AspNetBlog.IService;
 using AspNetBlog.Model;
+using AspNetBlog.Model.Vo;
 using AspNetBlog.Repository.Base;
 using AutoMapper;
 

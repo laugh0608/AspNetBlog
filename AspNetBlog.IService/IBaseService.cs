@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using SqlSugar;
 
 namespace AspNetBlog.IService;
@@ -10,7 +11,9 @@ public interface IBaseServices<TEntity, TVo> where TEntity : class
     
     Task<long> Add(TEntity entity);
     
-    Task<List<TVo>> Query();
+    // Task<List<TVo>> Query();
+    Task<List<TVo>> Query(Expression<Func<TEntity, bool>>? whereExpression = null);
     
-    Task<List<TEntity>> QuerySplit(System.Linq.Expressions.Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null);
+    // Task<List<TEntity>> QuerySplit(System.Linq.Expressions.Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null);
+    Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null);
 }

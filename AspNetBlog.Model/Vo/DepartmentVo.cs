@@ -1,4 +1,4 @@
-namespace AspNetBlog.Model;
+namespace AspNetBlog.Model.Vo;
 
 ///<summary>
 /// 部门表视图模型

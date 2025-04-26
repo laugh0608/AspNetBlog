@@ -1,4 +1,5 @@
 using AspNetBlog.Model;
+using AspNetBlog.Model.Vo;
 using AutoMapper;
 
 namespace AspNetBlog.Extension.ServiceExtensions;

@@ -77,7 +77,10 @@ builder.Services.AddAuthorization(options =>
     
     options.AddPolicy("Permission", policy => policy.Requirements.Add(new PermissionRequirement()));
 });
-builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirement>();
+// builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirement>();
+builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>();
+builder.Services.AddSingleton(new PermissionRequirement());
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();

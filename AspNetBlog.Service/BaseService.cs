@@ -27,13 +27,13 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
     //     return await baseRepo.Query();
     // }
     // 更改为泛型对象关系映射，不返回实体模型，返回映射后的视图模型
-    public async Task<List<TVo>> Query()
+    public async Task<List<TVo>> Query(Expression<Func<TEntity, bool>>? whereExpression = null)
     {
         // 从仓储层拿到数据对象，实体模型（通过链接数据库实例，拿到相对应的数据库中的数据）
         // 更改为依赖注入，不需要 new 了
         // var baseRepo = new BaseRepository<TEntity>();
         // 实体模型要暴露到外部就要转换为视图模型
-        var entities = await _baseRepository.Query();
+        var entities = await _baseRepository.Query(whereExpression);
         // 检查一下多次调用时数据体是否会发生变化
         Console.WriteLine($"_baseRepository 实例 HashCode: {_baseRepository.GetHashCode()}"); // 结果值是一样的
         // 对象关系映射
