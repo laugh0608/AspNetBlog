@@ -2,6 +2,7 @@ using System.Text;
 using AspNetBlog.Api.Extensions;
 using AspNetBlog.Common;
 using AspNetBlog.Common.Core;
+using AspNetBlog.Common.HttpContextUser;
 using AspNetBlog.Extension.ServiceExtensions;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>(
 builder.Services.AddSingleton(new PermissionRequirement());
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<IUser, AspNetUser>();
 
 var app = builder.Build();
 // 从获取的配置项配置 app 实例，拿到 service

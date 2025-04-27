@@ -2,7 +2,6 @@ using AspNetBlog.Common;
 using AspNetBlog.Common.Db;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
-// using System.Text.RegularExpressions;
 
 namespace AspNetBlog.Extension.ServiceExtensions;
 
@@ -57,7 +56,16 @@ public static class SqlsugarSetup
         // 参考：https://www.donet5.com/Home/Doc?typeId=1181
         services.AddSingleton<ISqlSugarClient>(o =>
         {
-            return new SqlSugarScope(BaseDbConfig.AllConfigs);
+            // return new SqlSugarScope(BaseDbConfig.AllConfigs);
+            return new SqlSugarScope(BaseDbConfig.AllConfigs, db =>
+            {
+                BaseDbConfig.ValidConfig.ForEach(config =>
+                {
+                    var dbProvider = db.GetConnectionScope((string)config.ConfigId);
+                    // 配置实体数据权限（多租户）
+                    RepositorySetting.SetTenantEntityFilter(dbProvider);
+                });
+            });
         });
     }
 }

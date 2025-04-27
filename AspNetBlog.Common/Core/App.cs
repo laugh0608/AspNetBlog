@@ -1,4 +1,5 @@
 using System.Reflection;
+using AspNetBlog.Common.HttpContextUser;
 using AspNetBlog.Common.Option;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,10 +34,10 @@ public class App
     /// <summary>有效程序集类型</summary>
     public static readonly IEnumerable<Type> EffectiveTypes;
 
-    /// <summary>优先使用App.GetService()手动获取服务</summary>
+    /// <summary>优先使用 App.GetService() 手动获取服务</summary>
     public static IServiceProvider RootServices => IsRun || IsBuild ? InternalApp.RootServices : null;
 
-    /// <summary>获取Web主机环境，如，是否是开发环境，生产环境等</summary>
+    /// <summary>获取 Web 主机环境，如，是否是开发环境，生产环境等</summary>
     public static IWebHostEnvironment WebHostEnvironment => InternalApp.WebHostEnvironment;
 
     /// <summary>获取泛型主机环境，如，是否是开发环境，生产环境等</summary>
@@ -50,7 +51,7 @@ public class App
     /// </summary>
     public static HttpContext HttpContext => RootServices?.GetService<IHttpContextAccessor>()?.HttpContext;
 
-    //public static IUser User => GetService<IUser>();
+    public static IUser User => GetService<IUser>();
 
     #region Service
 

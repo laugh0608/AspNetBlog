@@ -11,9 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AspNetBlog.Common\AspNetBlog.Common.csproj" />
       <ProjectReference Include="..\AspNetBlog.Extension\AspNetBlog.Extension.csproj" />
-      <ProjectReference Include="..\AspNetBlog.Service\AspNetBlog.Service.csproj" />
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AspNetBlog.Model\AspNetBlog.Model.csproj" />
+        <ProjectReference Include="..\AspNetBlog.Common\AspNetBlog.Common.csproj" />
+        <ProjectReference Include="..\AspNetBlog.Model\AspNetBlog.Model.csproj" />
     </ItemGroup>
 
 </Project>
