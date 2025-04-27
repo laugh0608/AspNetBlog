@@ -1,5 +1,6 @@
 using AspNetBlog.Common.HttpContextUser;
 using AspNetBlog.IService;
+using AspNetBlog.Model;
 using AspNetBlog.Model.Tenants;
 using AspNetBlog.Model.Vo;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +17,15 @@ namespace AspNetBlog.Api.Controllers;
 public class TenantController : ControllerBase
 {
     private readonly IBaseServices<BusinessTable, BusinessTableVo> _bizServices;
+    private readonly IBaseServices<MultiBusinessTable, MultiBusinessTableVo> _multiBusinessService;
     private readonly IUser _user;
 
-    public TenantController(IUser user, IBaseServices<BusinessTable, BusinessTableVo> bizServices)
+    public TenantController(IUser user, IBaseServices<BusinessTable, BusinessTableVo> bizServices,
+        IBaseServices<MultiBusinessTable, MultiBusinessTableVo> multiBusinessService)
     {
         _user = user;
         _bizServices = bizServices;
+        _multiBusinessService = multiBusinessService;
     }
 
     /// <summary>
@@ -32,6 +36,16 @@ public class TenantController : ControllerBase
     public async Task<object> GetAll()
     {
         return await _bizServices.Query();
+    }
+    
+    /// <summary>
+    /// 获取租户下全部业务数据（分表）
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<object> MultiBusinessByTable()
+    {
+        return await _multiBusinessService.Query();
     }
 
 }

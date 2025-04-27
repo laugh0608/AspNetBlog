@@ -28,8 +28,12 @@ public class CustomProfiles : Profile
         CreateMap<AuditSqlLog, AuditSqlLogVo>();
         CreateMap<AuditSqlLogVo, AuditSqlLog>();
         
-        // 多租户表的关系映射
+        // 多租户单表字段的关系映射
         CreateMap<BusinessTable, BusinessTableVo>();
         CreateMap<BusinessTableVo, BusinessTable>();
+        
+        // 多租户分表的关系映射
+        CreateMap<MultiBusinessTable, MultiBusinessTableVo>();
+        CreateMap<MultiBusinessTableVo, MultiBusinessTable>();
     }
 }

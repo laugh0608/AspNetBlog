@@ -27,7 +27,7 @@ public class JwtToken
             audience: "wr",
             claims: claims,
             notBefore: now,
-            expires: DateTime.Now.AddSeconds(3600),
+            expires: DateTime.Now.AddSeconds(1296000), // token 过期时间，单位 s，旧值为 3600
             signingCredentials: new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256)
         );
         // 生成 Token
@@ -38,7 +38,7 @@ public class JwtToken
         {
             success = true,
             token = encodedJwt,
-            expires_in = 3600,
+            expires_in = 1296000,
             token_type = "Bearer"
         };
         return responseJson;
