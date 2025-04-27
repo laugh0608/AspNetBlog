@@ -16,3 +16,9 @@ Authorization:Bearer {{AspNetBlog_Token}}
 GET {{AspNetBlog_Port}}/api/User/Get/1
 Accept: application/json
 Authorization:Bearer {{AspNetBlog_Token}}
+
+###
+
+GET {{AspNetBlog_Port}}/api/Tenant/GetAll
+Accept: application/json
+Authorization:Bearer {{AspNetBlog_Token}}

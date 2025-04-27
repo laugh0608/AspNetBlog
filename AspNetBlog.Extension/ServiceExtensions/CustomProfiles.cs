@@ -1,4 +1,5 @@
 using AspNetBlog.Model;
+using AspNetBlog.Model.Tenants;
 using AspNetBlog.Model.Vo;
 using AutoMapper;
 
@@ -26,5 +27,9 @@ public class CustomProfiles : Profile
         // 日志数据库的关系映射
         CreateMap<AuditSqlLog, AuditSqlLogVo>();
         CreateMap<AuditSqlLogVo, AuditSqlLog>();
+        
+        // 多租户表的关系映射
+        CreateMap<BusinessTable, BusinessTableVo>();
+        CreateMap<BusinessTableVo, BusinessTable>();
     }
 }
