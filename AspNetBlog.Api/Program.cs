@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 // 原生的依赖注入方法和容器
 var builder = WebApplication.CreateBuilder(args);
@@ -84,6 +85,17 @@ builder.Services.AddSingleton(new PermissionRequirement());
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IUser, AspNetUser>();
+
+// Serilog
+var loggerConfiguration = new LoggerConfiguration()
+    .ReadFrom.Configuration(AppSettings.Configuration)
+    .Enrich.FromLogContext()
+    // 输出到控制台
+    .WriteToConsole()
+    // 将日志保存到文件中
+    .WriteToFile();
+Log.Logger = loggerConfiguration.CreateLogger();
+builder.Host.UseSerilog();
 
 var app = builder.Build();
 // 从获取的配置项配置 app 实例，拿到 service

@@ -1,3 +1,5 @@
+using AspNetBlog.Common.LogHelper;
+using Serilog;
 using SqlSugar;
 
 namespace AspNetBlog.Common.Db;
@@ -11,7 +13,11 @@ public static class SqlSugarAop
             var logConsole = string.Format($"------------------ \r\n User:[{user}]  Table:[{table}]  Operate:[{operate}] " +
                                            $"ConnId:[{config.ConfigId}]【SQL 语句】: " +
                                            $"\r\n {UtilMethods.GetNativeSql(sql, p)}");
-            Console.WriteLine(logConsole);
+            // Console.WriteLine(logConsole);
+            using (LogContextExtension.Create.SqlAopPushProperty(sqlSugarScopeProvider))
+            {
+                Log.Information(logConsole);
+            }
         }
         catch (Exception e)
         {

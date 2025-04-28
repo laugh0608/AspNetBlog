@@ -8,6 +8,7 @@ using AspNetBlog.IService;
 using AspNetBlog.Model;
 using AspNetBlog.Model.Vo;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace AspNetBlog.Api.Controllers;
 
@@ -50,6 +51,11 @@ public class LoginController : ControllerBase
         string jwtStr = string.Empty;
 
         pass = MD5Encrypt32(pass);
+        
+        // 打印日志
+        Log.Information($"自定义日志 -- {name}-{pass}");
+        // 两种写法是一样的效果
+        _logger.LogInformation($"自定义日志 -- {name}-{pass}");
 
         var user = await _userService.Query(d => d.LoginName == name && d.LoginPWD == pass && d.IsDeleted == false);
         if (user.Count > 0)
