@@ -23,4 +23,7 @@ public interface IBaseRepository<TEntity> where TEntity : class
         where T : class, new();
     
     Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null);
+    
+    // 测试缓存查询
+    Task<List<TEntity>> QueryWithCache(Expression<Func<TEntity, bool>> whereExpression = null);
 }

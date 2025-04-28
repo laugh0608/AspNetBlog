@@ -40,6 +40,15 @@ public class BaseServices<TEntity, TVo> : IBaseServices<TEntity, TVo> where TEnt
         var llout = _mapper.Map<List<TVo>>(entities);
         return llout;
     }
+    
+    // 测试缓存查询
+    public async Task<List<TVo>> QueryWithCache(Expression<Func<TEntity, bool>>? whereExpression = null)
+    {
+        var entities = await _baseRepository.QueryWithCache(whereExpression);
+        Console.WriteLine($"_baseRepository 实例HashCode ： {_baseRepository.GetHashCode()}");
+        var llout = _mapper.Map<List<TVo>>(entities);
+        return llout;
+    }
 
     /// <summary>
     /// 向数据库中写入实体数据

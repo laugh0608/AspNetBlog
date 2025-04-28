@@ -1,5 +1,5 @@
 #@AspNetBlog.Api_HostAddress = https://localhost:7117
-#@AspNetBlog.Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYmxvZ2FkbWluIiwianRpIjoiMTIiLCJUZW5hbnRJZCI6IjAiLCJpYXQiOiIxNzQ1Njk5OTMxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjAyNS80LzI2IDIxOjM4OjUwIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiU3VwZXJBZG1pbiIsIm5iZiI6MTc0NTY3MTEzMCwiZXhwIjoxNzQ1Njc0NzMwLCJpc3MiOiJCbG9nLkNvcmUiLCJhdWQiOiJ3ciJ9.GetoRScbRjg_4RRIvmWYVrSEJCyxi0rWLvbd5D8J1w8
+#@AspNetBlog.Token = 
 
 GET {{AspNetBlog_Port}}/weatherforecast/
 Accept: application/json
@@ -25,3 +25,10 @@ GET {{AspNetBlog_Port}}/api/Tenant/SubLibraryBusinessTable
 Accept: application/json
 Authorization:Bearer {{AspNetBlog_Token}}
 ###
+GET {{AspNetBlog_Port}}/api/Tenant/GetTenantCache
+Accept: application/json
+Authorization:Bearer {{AspNetBlog_Token}}
+###
+GET {{AspNetBlog_Port}}/api/Tenant/AddTenant
+Accept: application/json
+Authorization:Bearer {{AspNetBlog_Token}}

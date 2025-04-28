@@ -5,6 +5,7 @@ using AspNetBlog.Model.Tenants;
 using AspNetBlog.Model.Vo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 
 namespace AspNetBlog.Api.Controllers;
 
@@ -19,16 +20,19 @@ public class TenantController : ControllerBase
     private readonly IBaseServices<BusinessTable, BusinessTableVo> _bizServices;
     private readonly IBaseServices<MultiBusinessTable, MultiBusinessTableVo> _multiBusinessService;
     private readonly IBaseServices<SubLibraryBusinessTable, SubLibraryBusinessTableVo> _subLibBusinessService;
+    private readonly IBaseServices<SysTenant, SysTenantVo> _sysTenantService;
     private readonly IUser _user;
 
     public TenantController(IUser user, IBaseServices<BusinessTable, BusinessTableVo> bizServices,
         IBaseServices<MultiBusinessTable, MultiBusinessTableVo> multiBusinessService,
-        IBaseServices<SubLibraryBusinessTable, SubLibraryBusinessTableVo> subLibBusinessService)
+        IBaseServices<SubLibraryBusinessTable, SubLibraryBusinessTableVo> subLibBusinessService,
+        IBaseServices<SysTenant, SysTenantVo> sysTenantService)
     {
         _user = user;
         _bizServices = bizServices;
         _multiBusinessService = multiBusinessService;
         _subLibBusinessService = subLibBusinessService;
+        _sysTenantService = sysTenantService;
     }
 
     /// <summary>
@@ -59,6 +63,26 @@ public class TenantController : ControllerBase
     public async Task<object> SubLibraryBusinessTable()
     {
         return await _subLibBusinessService.Query();
+    }
+    
+    // 测试缓存查询，查询方法
+    [HttpGet]
+    public async Task<object> GetTenantCache()
+    {
+        return await _sysTenantService.QueryWithCache();
+    }
+    // 测试缓存查询，添加方法
+    [HttpGet]
+    public async Task<object> AddTenant()
+    {
+        return await _sysTenantService.Add(new SysTenant()
+        {
+            Id = SnowFlakeSingle.instance.getID(),
+            Name = "test name",
+            TenantType = TenantTypeEnum.Db,
+            ConfigId = "test config",
+            Status = false
+        });
     }
 
 }

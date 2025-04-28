@@ -56,8 +56,9 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
                 // 获取租户信息 租户信息可以提前缓存下来 
                 if (App.User is { TenantId: > 0 })
                 {
-                    //.WithCache()
-                    var tenant = db.Queryable<SysTenant>().Where(s => s.Id == App.User.TenantId).First();
+                    // var tenant = db.Queryable<SysTenant>().Where(s => s.Id == App.User.TenantId).First();
+                    // 测试缓存查询
+                    var tenant = db.Queryable<SysTenant>().WithCache().Where(s => s.Id == App.User.TenantId).First();
                     if (tenant != null)
                     {
                         var iTenant = db.AsTenant();
@@ -85,6 +86,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         await Console.Out.WriteLineAsync(Db.GetHashCode().ToString());
         return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).ToListAsync();
     }
+    // 测试缓存查询
     public async Task<List<TEntity>> QueryWithCache(Expression<Func<TEntity, bool>> whereExpression = null)
     {
         return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).WithCache().ToListAsync();

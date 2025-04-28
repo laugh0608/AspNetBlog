@@ -39,5 +39,9 @@ public class CustomProfiles : Profile
         // 多租户分库的关系映射
         CreateMap<SubLibraryBusinessTable, SubLibraryBusinessTableVo>();
         CreateMap<SubLibraryBusinessTableVo, SubLibraryBusinessTable>();
+        
+        // 租户模型的关系映射
+        CreateMap<SysTenant, SysTenantVo>();
+        CreateMap<SysTenantVo, SysTenant>();
     }
 }
