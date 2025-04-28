@@ -35,5 +35,9 @@ public class CustomProfiles : Profile
         // 多租户分表的关系映射
         CreateMap<MultiBusinessTable, MultiBusinessTableVo>();
         CreateMap<MultiBusinessTableVo, MultiBusinessTable>();
+        
+        // 多租户分库的关系映射
+        CreateMap<SubLibraryBusinessTable, SubLibraryBusinessTableVo>();
+        CreateMap<SubLibraryBusinessTableVo, SubLibraryBusinessTable>();
     }
 }

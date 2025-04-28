@@ -1,4 +1,5 @@
 using System.Reflection;
+using AspNetBlog.Model;
 using AspNetBlog.Model.Tenants;
 using SqlSugar;
 
@@ -48,5 +49,27 @@ public static class TenantUtil
         {
             db.MappingTables.Add(type.Name, type.GetTenantTableName(db, id));
         }
+    }
+    
+    // 多租户 - 多库
+    public static ConnectionConfig GetConnectionConfig(this SysTenant tenant)
+    {
+        if (tenant.DbType is null)
+        {
+            throw new ArgumentException("Tenant DbType Must");
+        }
+
+        return new ConnectionConfig()
+        {
+            ConfigId = tenant.ConfigId,
+            DbType = tenant.DbType.Value,
+            ConnectionString = tenant.Connection,
+            IsAutoCloseConnection = true,
+            MoreSettings = new ConnMoreSettings()
+            {
+                IsAutoRemoveDataCache = true,
+                SqlServerCodeFirstNvarchar = true,
+            },
+        };
     }
 }
